@@ -11,12 +11,17 @@ li.article{
     margin-bottom: 5px;
 	background: white;
 	padding: 0px 10px;
+	float: left;
 }
 .article img{
 	width:200px;
 	height:150px;
-        margin: 10px 10px 0px 5px;
+	margin: 10px 10px 0px 5px;
 	
+}
+.articleImage{
+	float:left;
+
 }
 
 ul {
@@ -42,5 +47,11 @@ ul {
 {
 	position:relative;
 	float:right;
-	width:30%
+	width:30%;
+}
+.headerLink
+{
+	display:inline-block;
+	width:33%;
+	text-align:center;
 }

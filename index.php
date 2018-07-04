@@ -1,33 +1,39 @@
-
+<?php session_start(); ?>
 
 <?php
+//получение линка для запросов
+require_once 'connection.php';
+$link = mysqli_connect($host, $user, $password, $database)
+or die("ошибка" . mysqli_error($link));
+mysqli_set_charset($link, "utf8");
+//файл с функциями
+require_once 'Function.php';
 
-include("header.php");
+$resultActiclesOrderDate =GetArticlesOrderDate ($link);
+$resultTopActicles = GetTopArticles ($link);
 
-$query ="SELECT * FROM news ORDER BY date DESC limit 10";
-$resultActicleOrderDate = mysqli_query($link, $query) or die("ошибка " . mysqli_error($link)); 
-$date1=date("Y-m-d",mktime(0, 0, 0, date("m")  , date("d")-7, date("Y")));
-$date2=date("Y-m-d");
-$query ='SELECT * FROM news Where date between "'.$date1.'" and "'.$date2.'" ORDER BY viewCount DESC limit 10';
-$resultTopActicle = mysqli_query($link, $query) or die("ошибка " . mysqli_error($link)); 
 mysqli_close($link);
 
 ?>
 
-<div class="articles" >
 
+<?php
+include("header.php");
+?>
+
+<div class="articles" >
 <H2>Последние статьи</H2>
-<?php if (!empty($resultActicleOrderDate)) : ?>
+<?php if (!empty($resultActiclesOrderDate)) : ?>
     <ul>
-    <?php foreach($resultActicleOrderDate as $item) : ?>
+    <?php foreach($resultActiclesOrderDate as $item) : ?>
 	    <li class="article">
 			<?php
 			if (!empty($item['image'])){
-			echo '<div style="float:left;"><img src="'.$item['image'].'" /></div>';}
+			echo '<div class="articleImage" ><img src="'.$item['image'].'" /></div>';}
 			?>
 			<div class="articleTitle"><h3>
 			<?php
-			echo '<a href="/article.php?id='.$item['id'].'">'.$title=$item['header'].'</a>';
+			echo '<a href="/article.php?id='.$item['id'].'">'.$item['header'].'</a>';
 			?>
 			</h3></div>
 			<div class="articleBody">
@@ -48,13 +54,13 @@ mysqli_close($link);
 
 <div class="topArticles">
 <H2>Горячие статьи</H2>
-<?php if (!empty($resultTopActicle)) : ?>
+<?php if (!empty($resultTopActicles)) : ?>
     <ul>
-    <?php foreach($resultTopActicle as $item) : ?>
+    <?php foreach($resultTopActicles as $item) : ?>
 	    <li class="article">
 			<div class="articleTitle"><h3>
 			<?php
-			echo '<a href="/article.php?id='.$item['id'].'">'.$title=$item['header'].'</a>';
+			echo '<a href="/article.php?id='.$item['id'].'">'.$item['header'].'</a>';
 			?>
 			</h3></div>
 		</li>

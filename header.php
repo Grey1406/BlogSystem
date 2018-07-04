@@ -2,26 +2,30 @@
 <html>
 	<head>
 		<title>Blog System</title>
-		<?PHP header("Content-Type: text/html; charset=utf-8");?>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 		<link rel="stylesheet" href="style.css">
 		<script type="text/javascript" src="jquery-3.3.1.min.js"></script>
-		<script src="ckeditor/ckeditor.js"/></script>
-		
-	</head>
+		<script src="ckeditor/ckeditor.js"/></script></head>
 	<body>
-<div style="height:100px">
-<span>
-		<a href="/" ><h1 style="display:inline">Blog System</h1></a>
-	
-		<a href="/createArticle.php?id=null" style="display:inline;float:right;margin: 10px;">Create new article</a>
-</span>
+
+
+<div style="height:100px" >
+
+		<a href="/" ><h1 class="headerLink">Blog System</h1></a>
+        <a href="/Autorisation.php" ><h1 class="headerLink">Авторизация</h1></a>
+        <?php
+        if($_SESSION['isAdmin'])
+             echo '<a href="/createArticle.php?id=null"><h1 class="headerLink">Создать новую статью</h1></a>';
+        ?>
 </div>
 
 
 <?php
-require_once 'connection.php'; 
-$link = mysqli_connect($host, $user, $password, $database) 
-    or die("������ " . mysqli_error($link));
-mysqli_set_charset($link, "utf8");
+if($_SESSION['isAdmin'])
+    $AutorisationStat="Вы авторизованы как: ".$_SESSION['UserName'];
+else
+    $AutorisationStat="Вы не авторизованы";
 ?>
+
+<p><?php echo($AutorisationStat); ?></p>
+

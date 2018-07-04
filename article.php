@@ -1,40 +1,41 @@
+<?php session_start(); ?>
+
 
 <?php
+require_once 'connection.php';
+$link = mysqli_connect($host, $user, $password, $database)
+or die("ошибка" . mysqli_error($link));
+mysqli_set_charset($link, "utf8");
 
-include("header.php");
-
-$articleId = $_GET['id'];
-$query ="SELECT * FROM news where id=".$articleId;
-$resultActicleOrderDate = mysqli_query($link, $query) or die("ошибка " . mysqli_error($link)); 
-
+require_once 'Function.php';
+$resultActicle = GetArticle($link,$_GET['id']);
+AddViewToArticle($link,$_GET['id']);
 mysqli_close($link);
 ?>
 
+<?php include("header.php"); ?>
 
 
-
-<?php if (!empty($resultActicleOrderDate)) : ?>
+<?php if (!empty($resultActicle)) : ?>
     <ul>
-    <?php foreach($resultActicleOrderDate as $item) : ?>
 	    <li class="article">
 			<?php
-			if (!empty($item['image'])){
-			echo '<div style="float:left;"><img src="'.$item['image'].'" /></div>';}
+			if (!empty($resultActicle['image'])){
+			echo '<div class="articleImage"><img src="'.$resultActicle['image'].'" /></div>';}
 			?>
 			<div class="articleTitle"><h3>
 			<?php
-			echo '<a href="/article.php?id='.$item['id'].'">'.$title=$item['header'].'</a>';
-            echo '<a href="/createArticle.php?articleId='.$item['id'].'">--------редактировать</a>';
+			echo ($resultActicle['header']);
+			if($_SESSION['isAdmin'])
+                echo '<a href="/createArticle.php?articleId='.$resultActicle['id'].'">--------редактировать</a>';
 			?>
 			</h3></div>
 			<div class="articleBody">
 			<?php
-			$text=$item['text'];
-			echo $text;
+			echo $resultActicle['text'];
 			?>
 			</div>
 		</li>
-    <?php endforeach ?>
     </ul>
 <?php endif ?>
 

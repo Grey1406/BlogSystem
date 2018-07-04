@@ -1,6 +1,6 @@
 <?php
-$host = 'localhost'; // адрес сервера 
-$database = 'blogsystem'; // имя базы данных
-$user = 'root'; // имя пользователя
-$password = ''; // пароль
+$host = 'mysql';
+$database = 'booster';
+$user = 'root';
+$password = '123';
 ?>

@@ -21,8 +21,8 @@ SET time_zone = "+00:00";
 --
 -- База данных: `blogsystem`
 --
-CREATE DATABASE IF NOT EXISTS `blogsystem` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `blogsystem`;
+CREATE DATABASE IF NOT EXISTS `booster` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `booster`;
 
 -- --------------------------------------------------------
 
