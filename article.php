@@ -8,32 +8,35 @@ or die("ошибка" . mysqli_error($link));
 mysqli_set_charset($link, "utf8");
 
 require_once 'Function.php';
-$resultActicle = GetArticle($link,$_GET['id']);
-AddViewToArticle($link,$_GET['id']);
+$resultActicle = GetArticle($link, $_GET['id']);
+AddViewToArticle($link, $_GET['id']);
 mysqli_close($link);
 ?>
 
 <?php include("header.php"); ?>
 
 
-<?php if (!empty($resultActicle)) : ?>
+<?php if (!empty($resultActicle)) :
+    ?>
     <ul>
 	    <li class="article">
 			<?php
-			if (!empty($resultActicle['image'])){
-			echo '<div class="articleImage"><img src="'.$resultActicle['image'].'" /></div>';}
-			?>
+            if (!empty($resultActicle['image'])) {
+                echo '<div class="articleImage"><img src="'.$resultActicle['image'].'" /></div>';
+            }
+            ?>
 			<div class="articleTitle"><h3>
 			<?php
-			echo ($resultActicle['header']);
-			if($_SESSION['isAdmin'])
-                echo '<a href="/createArticle.php?articleId='.$resultActicle['id'].'">--------редактировать</a>';
-			?>
+            echo ($resultActicle['header']);
+            if ($_SESSION['isAdmin']) {
+                echo '<a href="/createArticle.php?articleId=' . $resultActicle['id'] . '">--------редактировать</a>';
+            }
+            ?>
 			</h3></div>
 			<div class="articleBody">
 			<?php
-			echo $resultActicle['text'];
-			?>
+            echo $resultActicle['text'];
+            ?>
 			</div>
 		</li>
     </ul>

@@ -12,7 +12,7 @@
 <div style="height:100px" >
 
 		<a href="/" ><h1 class="headerLink">Blog System</h1></a>
-        <a href="/Autorisation.php" ><h1 class="headerLink">Авторизация</h1></a>
+        <a href="/Authorisation.php" ><h1 class="headerLink">Авторизация</h1></a>
         <?php
         if($_SESSION['isAdmin'])
              echo '<a href="/createArticle.php?id=null"><h1 class="headerLink">Создать новую статью</h1></a>';

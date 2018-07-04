@@ -21,28 +21,26 @@ mysqli_close($link);
 <?php
 
 
-if(!isset($_POST['UserName'])||empty($_POST['UserName']))
+if (!isset($_POST['UserName'])||empty($_POST['UserName'])) {
     $_SESSION['UserName']=null;
-else
-{
-   $_SESSION['UserName']=$_POST['UserName'];
+} else {
+    $_SESSION['UserName']=$_POST['UserName'];
 }
-if(!isset($_POST['UserPass'])||empty($_POST['UserPass']))
+if (!isset($_POST['UserPass'])||empty($_POST['UserPass'])) {
     $_SESSION['UserPass']=null;
-else
-{
+} else {
     $_SESSION['UserPass']=$_POST['UserPass'];
 }
 
 
 $_SESSION['isAdmin']=false;
-if(!is_null($_SESSION['UserName'])&!is_null($_SESSION['UserPass']))
-{
-    foreach ($users as $user)
-        if($_SESSION['UserName']==$user['name']&$_SESSION['UserPass']==$user['pass']) {
+if (!is_null($_SESSION['UserName'])&!is_null($_SESSION['UserPass'])) {
+    foreach ($users as $user) {
+        if ($_SESSION['UserName'] == $user['name'] & $_SESSION['UserPass'] == $user['pass']) {
             $_SESSION['isAdmin'] = true;
             break;
         }
+    }
 }
 
 ?>
@@ -53,7 +51,7 @@ if(!is_null($_SESSION['UserName'])&!is_null($_SESSION['UserPass']))
 
 
 
-<form action="Autorisation.php" method=POST >
+<form action="Authorisation.php" method=POST >
     <h3>Авторизация:</h3>
     <p>Логин:
     <input type=Text name=UserName value ="" required></p>

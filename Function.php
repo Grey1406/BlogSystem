@@ -6,7 +6,7 @@
  * Time: 9:52
  */
 
-function GetArticlesOrderDate ($link)
+function GetArticlesOrderDate($link)
 {
     $query ="SELECT * FROM news ORDER BY date DESC";
     $resultArticleOrderDate = mysqli_query($link, $query) or die("ошибка " . mysqli_error($link));
@@ -14,35 +14,37 @@ function GetArticlesOrderDate ($link)
 
 }
 
-function GetTopArticles ($link)
+function GetTopArticles($link)
 {
-    $date1=date("Y-m-d",mktime(0, 0, 0, date("m")  , date("d")-7, date("Y")));
+    $date1=date("Y-m-d", mktime(0, 0, 0, date("m"), date("d")-7, date("Y")));
     $date2=date("Y-m-d");
 
     //mysqli_real_escape_string($link, gfgf );
 
-    $query ='SELECT * FROM news Where date between "'.mysqli_real_escape_string($link, $date1 )
+    $query ='SELECT * FROM news Where date between "'.mysqli_real_escape_string($link, $date1)
         .'" and "'.mysqli_real_escape_string($link, $date2).'" ORDER BY viewCount DESC limit 10';
     $resultTopArticle = mysqli_query($link, $query);
     return $resultTopArticle;
 }
 
-function GetArticle($link,$articleId)
+function GetArticle($link, $articleId)
 {
     $query ="SELECT * FROM news where id='".mysqli_real_escape_string($link, $articleId)."'";
     $resultQuery = mysqli_query($link, $query);
     $returnedResult=[];
-    foreach($resultQuery as $item)
-        $returnedResult=$item;
+    foreach ($resultQuery as $item) {
+        $returnedResult = $item;
+    }
     return $returnedResult;
 }
-function AddViewToArticle($link,$articleId)
+function AddViewToArticle($link, $articleId)
 {
     $query ="SELECT * FROM news where id='".mysqli_real_escape_string($link, $articleId)."'";
     $resultQuery = mysqli_query($link, $query);
     $returnedResult=[];
-    foreach($resultQuery as $item)
-        $returnedResult=$item;
+    foreach ($resultQuery as $item) {
+        $returnedResult = $item;
+    }
     $query ="UPDATE `news` SET 
 			`header`='".mysqli_real_escape_string($link, $returnedResult['header'])."',
 			`text`='".mysqli_real_escape_string($link, $returnedResult['text'])."',
@@ -59,12 +61,13 @@ function GetAllUsers($link)
     $Users=[];
     $query ="SELECT * FROM users ";
     $resultUsers= mysqli_query($link, $query);
-    foreach ($resultUsers as $user)
+    foreach ($resultUsers as $user) {
         $Users[] = $user;
+    }
     return $Users;
 }
 
-function InsertArticle($link,$title,$text,$imagePath)
+function InsertArticle($link, $title, $text, $imagePath)
 {
     $query = "INSERT INTO `news`(`id`, `header`, `text`, `image`, `date`, `viewCount`) 
 		VALUES (null,'" .
@@ -76,7 +79,7 @@ function InsertArticle($link,$title,$text,$imagePath)
 
 
 }
-function UpdateArticle($link,$title,$text,$imagePath,$articleId)
+function UpdateArticle($link, $title, $text, $imagePath, $articleId)
 {
     $query ="UPDATE `news` SET 
 			`header`='".mysqli_real_escape_string($link, $title)."',
@@ -103,7 +106,9 @@ function GetImageFile($My_FILES)
     // Получим MIME-тип
     $mime = (string) finfo_file($fi, $filePath);
     // Проверим ключевое слово image (image/jpeg, image/png и т. д.)
-    if (strpos($mime, 'image') === false) die('Можно загружать только изображения.');
+    if (strpos($mime, 'image') === false) {
+        die('Можно загружать только изображения.');
+    }
     $name = md5_file($filePath);
     $image = getimagesize($filePath);
     // Сгенерируем расширение файла на основе типа картинки
@@ -112,7 +117,7 @@ function GetImageFile($My_FILES)
     $format = str_replace('jpeg', 'jpg', $extension);
     // Переместим картинку с новым именем и расширением в папку /pics
     $newFilePath=__DIR__ . "/images/" . $name . $format;
-    if (!move_uploaded_file($filePath,$newFilePath )) {
+    if (!move_uploaded_file($filePath, $newFilePath)) {
         die('При записи изображения на диск произошла ошибка.');
     }
     return $ImagePath="/images/".$name.$format;
