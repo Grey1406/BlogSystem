@@ -107,10 +107,10 @@ if(is_null($articleId)||$articleId=="null")
 <input type="hidden" name=articleId value =<?php if(is_null($articleId))echo('null');else echo($articleId);?>>
 
 <p>Заголовок статьи:</p>
-<input type=Text name=title value = <?php echo('"'.$title.'"');?>>
+<input type=Text name=title value ="<?php echo('"'.$title.'"');?> "  required >
 
 <p>Текст статьи:</p>
-<textarea name=articleText id="editor1" rows="10" cols="80">
+<textarea name=articleText id="editor1" rows="10" cols="80"  required>
 <?php echo($Text);?>
 </textarea>
 
