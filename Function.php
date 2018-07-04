@@ -12,9 +12,8 @@ function GetArticlesOrderDate ($link)
     $resultArticleOrderDate = mysqli_query($link, $query) or die("ошибка " . mysqli_error($link));
     return $resultArticleOrderDate;
 
-
-
 }
+
 function GetTopArticles ($link)
 {
     $date1=date("Y-m-d",mktime(0, 0, 0, date("m")  , date("d")-7, date("Y")));
@@ -24,14 +23,14 @@ function GetTopArticles ($link)
 
     $query ='SELECT * FROM news Where date between "'.mysqli_real_escape_string($link, $date1 )
         .'" and "'.mysqli_real_escape_string($link, $date2).'" ORDER BY viewCount DESC limit 10';
-    $resultTopArticle = mysqli_query($link, $query) or die("ошибка " . mysqli_error($link));
+    $resultTopArticle = mysqli_query($link, $query);
     return $resultTopArticle;
 }
 
 function GetArticle($link,$articleId)
 {
     $query ="SELECT * FROM news where id='".mysqli_real_escape_string($link, $articleId)."'";
-    $resultQuery = mysqli_query($link, $query) or die("ошибка " . mysqli_error($link));
+    $resultQuery = mysqli_query($link, $query);
     $returnedResult=[];
     foreach($resultQuery as $item)
         $returnedResult=$item;
@@ -40,7 +39,7 @@ function GetArticle($link,$articleId)
 function AddViewToArticle($link,$articleId)
 {
     $query ="SELECT * FROM news where id='".mysqli_real_escape_string($link, $articleId)."'";
-    $resultQuery = mysqli_query($link, $query) or die("ошибка " . mysqli_error($link));
+    $resultQuery = mysqli_query($link, $query);
     $returnedResult=[];
     foreach($resultQuery as $item)
         $returnedResult=$item;
@@ -50,7 +49,7 @@ function AddViewToArticle($link,$articleId)
 			`image`='".mysqli_real_escape_string($link, $returnedResult['image'])."',
 			`viewCount`='".mysqli_real_escape_string($link, ($returnedResult['viewCount']+1))."' 
 			 WHERE id = ".mysqli_real_escape_string($link, $articleId);
-    $resultUpdate = mysqli_query($link, $query) or die("ошибка " . mysqli_error($link));
+    $resultUpdate = mysqli_query($link, $query);
     return $resultUpdate;
 }
 
@@ -59,7 +58,7 @@ function GetAllUsers($link)
 {
     $Users=[];
     $query ="SELECT * FROM users ";
-    $resultUsers= mysqli_query($link, $query) or die("ошибка " . mysqli_error($link));
+    $resultUsers= mysqli_query($link, $query);
     foreach ($resultUsers as $user)
         $Users[] = $user;
     return $Users;
@@ -72,7 +71,7 @@ function InsertArticle($link,$title,$text,$imagePath)
         mysqli_real_escape_string($link, $title) . "','" .
         mysqli_real_escape_string($link, $text) . "','" .
         mysqli_real_escape_string($link, $imagePath) . "','" . date("Y-m-d") . "','0')";
-    $resultInsert = mysqli_query($link, $query) or die("ошибка " . mysqli_error($link));
+    $resultInsert = mysqli_query($link, $query);
     return $resultInsert;
 
 
@@ -84,7 +83,7 @@ function UpdateArticle($link,$title,$text,$imagePath,$articleId)
 			`text`='".mysqli_real_escape_string($link, $text)."',
 			`image`='".mysqli_real_escape_string($link, $imagePath)."' 
 			WHERE id = ".mysqli_real_escape_string($link, $articleId);
-    $resultUpdate = mysqli_query($link, $query) or die("ошибка " . mysqli_error($link));
+    $resultUpdate = mysqli_query($link, $query);
     return $resultUpdate;
 
 }
@@ -96,6 +95,7 @@ function GetIdLastInsertedArticle($link)
 
 function GetImageFile($My_FILES)
 {
+
     $filePath  = $My_FILES['imagePath']['tmp_name'];
     $errorCode = $My_FILES['imagePath']['error'];
     // Создадим ресурс FileInfo
