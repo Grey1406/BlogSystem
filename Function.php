@@ -18,8 +18,8 @@ function GetTopArticles($link)
 {
     $date1 = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d")-7, date("Y")));
     $date2 = date("Y-m-d");
-    $query = 'SELECT * FROM news Where date between "'.mysqli_real_escape_string($link, $date1)
-        .'" and "'.mysqli_real_escape_string($link, $date2).'" ORDER BY viewCount DESC limit 10';
+    $query = "SELECT * FROM news Where date between '".mysqli_real_escape_string($link, $date1)
+        ."' and '".mysqli_real_escape_string($link, $date2)."' ORDER BY viewCount DESC limit 10";
     $resultTopArticle = mysqli_query($link, $query);
     return $resultTopArticle;
 }
@@ -37,12 +37,6 @@ function GetArticle($link, $articleId)
 
 function AddViewToArticle($link, int $articleId)
 {
-    $query = "SELECT * FROM news where id='".mysqli_real_escape_string($link, $articleId)."'";
-    $resultQuery = mysqli_query($link, $query);
-    $returnedResult = [];
-    foreach ($resultQuery as $item) {
-        $returnedResult = $item;
-    }
     $query = "UPDATE `news` SET 
 			`viewCount`= viewCount + 1
 			 WHERE id = ".mysqli_real_escape_string($link, $articleId);
@@ -93,8 +87,6 @@ function GetImageFile($My_FILES)
 {
 
     $filePath  = $My_FILES['imagePath']['tmp_name'];
-    $fi = finfo_open(FILEINFO_MIME_TYPE);
-    $mime = (string) finfo_file($fi, $filePath);
     $name = md5_file($filePath);
     $image = getimagesize($filePath);
     $extension = image_type_to_extension($image[2]);
