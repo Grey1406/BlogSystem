@@ -4,8 +4,14 @@ function GetArticlesOrderDate($link)
 {
     $query = "SELECT * FROM news ORDER BY date DESC";
     $resultArticleOrderDate = mysqli_query($link, $query);
-    return $resultArticleOrderDate;
-
+    $returnedMass=[];
+    foreach ($resultArticleOrderDate as $item) {
+        if (mb_strlen($item['text']) > 300) {
+            $item['text'] = mb_substr($item['text'], 0, mb_strpos($item['text'], " ", 300)) . "...";
+        }
+        $returnedMass[]=$item;
+    }
+    return  $returnedMass;
 }
 
 function GetTopArticles($link)
@@ -28,7 +34,8 @@ function GetArticle($link, $articleId)
     }
     return $returnedResult;
 }
-function AddViewToArticle($link, $articleId)
+
+function AddViewToArticle($link, int $articleId)
 {
     $query = "SELECT * FROM news where id='".mysqli_real_escape_string($link, $articleId)."'";
     $resultQuery = mysqli_query($link, $query);
@@ -37,12 +44,11 @@ function AddViewToArticle($link, $articleId)
         $returnedResult = $item;
     }
     $query = "UPDATE `news` SET 
-			`viewCount`='".mysqli_real_escape_string($link, ($returnedResult['viewCount']+1))."' 
+			`viewCount`= viewCount + 1
 			 WHERE id = ".mysqli_real_escape_string($link, $articleId);
     $resultUpdate = mysqli_query($link, $query);
     return $resultUpdate;
 }
-
 
 function GetAllUsers($link)
 {
@@ -64,9 +70,8 @@ function InsertArticle($link, $title, $text, $imagePath)
         mysqli_real_escape_string($link, $imagePath) . "','" . date("Y-m-d") . "','0')";
     $resultInsert = mysqli_query($link, $query);
     return $resultInsert;
-
-
 }
+
 function UpdateArticle($link, $title, $text, $imagePath, $articleId)
 {
     $query = "UPDATE `news` SET 
@@ -76,8 +81,8 @@ function UpdateArticle($link, $title, $text, $imagePath, $articleId)
 			WHERE id = ".(int)$articleId;
     $resultUpdate = mysqli_query($link, $query);
     return $resultUpdate;
-
 }
+
 function GetIdLastInsertedArticle($link)
 {
     $articleId = mysqli_insert_id($link);
