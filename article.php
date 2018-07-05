@@ -3,8 +3,7 @@
 
 <?php
 require_once 'connection.php';
-$link = mysqli_connect($host, $user, $password, $database)
-or die("ошибка" . mysqli_error($link));
+$link = mysqli_connect($host, $user, $password, $database);
 mysqli_set_charset($link, "utf8");
 
 require_once 'Function.php';

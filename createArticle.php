@@ -2,8 +2,6 @@
 session_start();
 
 if (!$_SESSION['isAdmin']) {
-   // header('Location: /Authorisation.php');
-
     header('Refresh: 3; url=/Authorisation.php');
     echo "Вы не прошли авторизацию ! через 3 секунды это сообщение исчезнет";
 }
@@ -12,8 +10,7 @@ if (!$_SESSION['isAdmin']) {
 
 <?php
 require_once 'connection.php';
-$link = mysqli_connect($host, $user, $password, $database)
-or die("ошибка" . mysqli_error($link));
+$link = mysqli_connect($host, $user, $password, $database);
 mysqli_set_charset($link, "utf8");
 
 require_once 'Function.php';
@@ -22,36 +19,36 @@ require_once 'Function.php';
 <?php include("header.php");?>
 
 <?php
-$articleId=null;
+$articleId = null;
 if (array_key_exists('articleId', $_POST)) {
     $articleId = $_POST['articleId'];
 }
 if (array_key_exists('articleId', $_GET)) {
     $articleId = $_GET['articleId'];
 }
-$updateFlag="false";
+$updateFlag = "false";
 if (array_key_exists('update', $_GET)) {
     $updateFlag = $_GET['update'];
 }
 
-if ($updateFlag=="true") {
-    $title =$_POST['title'];
-    $Text =$_POST['articleText'];
+if ($updateFlag == "true") {
+    $title = $_POST['title'];
+    $Text = $_POST['articleText'];
     if (array_key_exists('articleImage', $_POST)) {
         $ImagePath = $_POST['articleImage'];
-    } elseif (array_key_exists('imagePath', $_FILES)&&$_FILES['imagePath']['tmp_name']!=="") {
-        $ImagePath=GetImageFile($_FILES);
+    } elseif (array_key_exists('imagePath', $_FILES) && $_FILES['imagePath']['tmp_name'] !== "") {
+        $ImagePath = GetImageFile($_FILES);
     } else {
-        $ImagePath=null;
+        $ImagePath = null;
     }
-    if ($articleId==="null") {
-        $resultInsert=InsertArticle($link, $title, $Text, $ImagePath);
+    if ($articleId === "null") {
+        $resultInsert = InsertArticle($link, $title, $Text, $ImagePath);
         if ($resultInsert) {
             echo("Статья успешно создана");
         } else {
             echo("При создании что-то пошло не так");
         }
-        $articleId=GetIdLastInsertedArticle($link);
+        $articleId = GetIdLastInsertedArticle($link);
     } else {
         $resultUpdate = UpdateArticle($link, $title, $Text, $ImagePath, $articleId);
         if ($resultUpdate) {
@@ -62,26 +59,28 @@ if ($updateFlag=="true") {
     }
 }
 
-if (is_null($articleId)||$articleId=="null") {
+if (is_null($articleId) || $articleId=="null") {
     $title = '';
     if (array_key_exists('title', $_POST)) {
         $title = $_POST['title'];
-        $Text = '';
-        if (array_key_exists('articleText', $_POST)) {
+    }
+    $Text = '';
+    if (array_key_exists('articleText', $_POST)) {
             $Text = $_POST['articleText'];
+    }
+    $ImagePath = null;
+    if (!array_key_exists('articleImage', $_POST)) {
+        if (array_key_exists('imagePath', $_FILES) && $_FILES['imagePath']['tmp_name'] !== "") {
+            $ImagePath = GetImageFile($_FILES);
         }
-        $ImagePath = null;
-        if (!array_key_exists('articleImage', $_POST)) {
-            if (array_key_exists('imagePath', $_FILES) && $_FILES['imagePath']['tmp_name'] !== "") {
-                $ImagePath = GetImageFile($_FILES);
-            }
-        }
-    } else {
+    }
+}
+else {
         $displayItem = GetArticle($link, $articleId);
         $title = $displayItem['header'];
         $Text = $displayItem['text'];
         $ImagePath = $displayItem['image'];
-    }
+
 }
 ?>
 
@@ -106,7 +105,8 @@ if (is_null($articleId)) {
 }?>>
 
 <p>Заголовок статьи:</p>
-<input type=Text name=title value ="<?php echo('"'.$title.'"');?> "  required >
+
+<input type=Text name=title value ="<?php echo($title);?> "  required >
 
 <p>Текст статьи:</p>
 <textarea name=articleText id="editor1" rows="10" cols="80"  required>
@@ -115,7 +115,7 @@ if (is_null($articleId)) {
 
 <p>Картинка:</p>
 <?php
-if (is_null($ImagePath)||empty($ImagePath)) {
+if (is_null($ImagePath) || empty($ImagePath)) {
     echo('<input type="file" name=imagePath >');
 } else {
     echo ('<div class=article style="float:left;"><img name=articleImage src="'.$ImagePath.'" /></div>');

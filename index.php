@@ -3,13 +3,12 @@
 <?php
 //получение линка для запросов
 require_once 'connection.php';
-$link = mysqli_connect($host, $user, $password, $database)
-or die("ошибка" . mysqli_error($link));
+$link = mysqli_connect($host, $user, $password, $database);
 mysqli_set_charset($link, "utf8");
 //файл с функциями
 require_once 'Function.php';
 
-$resultArticlesOrderDate =GetArticlesOrderDate($link);
+$resultArticlesOrderDate = GetArticlesOrderDate($link);
 $resultTopArticles = GetTopArticles($link);
 
 mysqli_close($link);
@@ -41,12 +40,11 @@ include("header.php");
 			</h3></div>
 			<div class="articleBody">
 			<?php
-            $text=$item['text'];
+            $text = $item['text'];
             if (mb_strlen($text) > 300) {
                 $text = mb_substr($text, 0, mb_strpos($text, " ", 300)) . "...";
-            } else {
-                echo $text;
             }
+            echo $text;
             ?>
 			</div>
 		</li>

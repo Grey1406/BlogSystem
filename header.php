@@ -22,9 +22,9 @@
 
 <?php
 if($_SESSION['isAdmin'])
-    $AutorisationStat="Вы авторизованы как: ".$_SESSION['UserName'];
+    $AutorisationStat = "Вы авторизованы как: ".$_SESSION['UserName'];
 else
-    $AutorisationStat="Вы не авторизованы";
+    $AutorisationStat = "Вы не авторизованы";
 ?>
 
 <p><?php echo($AutorisationStat); ?></p>
