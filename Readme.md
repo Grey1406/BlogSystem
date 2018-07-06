@@ -35,15 +35,15 @@ docker-compose.yml и connection.php
 
      sudo docker-compose up -d --build
    
-
 7: Для загрузки БД системы выполнить следующие команды:
     
-    3.1 docker-compose exec mysql bash
-    3.2 cd /var/www/app
-    3.3 mysql -uroot -p123 booster < blogsystem.sql
+    7.1 docker-compose exec mysql bash
+    7.2 cd /var/www/app
+    7.3 mysql -uroot -p123 booster < blogsystem.sql
+    
 Данные команды позволят подключиться к контейнеру докера sql,
  и создать в нем необходмые базы данных 
 
 8: Войти в систему используя запрос в браузер:
     
-    "http://localhost:6001/"
+    http://localhost:6001/
